@@ -19,7 +19,7 @@ namespace CodePulse.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategoty(CreateCategoryRequestDTO request)
+        public async Task<IActionResult> CreateCategory(CreateCategoryRequestDTO request)
         {
             var category = new Category
             {
