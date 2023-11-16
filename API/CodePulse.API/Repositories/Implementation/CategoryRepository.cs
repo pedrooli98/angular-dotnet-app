@@ -21,6 +21,7 @@ namespace CodePulse.API.Repositories.Implementation
             return category;
         }
 
+
         public async Task<IEnumerable<Category>> GetAllAsync()
         {
             return await _context.Categories.ToListAsync();
@@ -44,6 +45,19 @@ namespace CodePulse.API.Repositories.Implementation
             _context.Entry(existingCategory).CurrentValues.SetValues(category);
             await _context.SaveChangesAsync();
             return category;
+        }
+
+        public async Task<Category?> DeleteAsync(Guid id)
+        {
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => id == c.Id);
+
+            if (existingCategory is null)
+                throw new Exception();
+            
+            _context.Categories.Remove(existingCategory);
+            await _context.SaveChangesAsync();
+
+            return existingCategory;
         }
     }
 }
