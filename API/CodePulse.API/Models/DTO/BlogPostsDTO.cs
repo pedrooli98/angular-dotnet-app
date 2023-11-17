@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodePulse.API.Models.Domain;
 
 namespace CodePulse.API.Models.DTO
 {
@@ -16,5 +17,6 @@ namespace CodePulse.API.Models.DTO
         public DateTime PublishedDate { get; set; }
         public string Author { get; set; }
         public bool IsVisible { get; set; }
+        public List<CategoryDTO> Categories { get; set; } = new List<CategoryDTO>();
     }
 }
