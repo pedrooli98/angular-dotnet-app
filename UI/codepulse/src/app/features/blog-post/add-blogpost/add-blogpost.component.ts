@@ -1,15 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AddBlogPost } from '../models/add-blog-post.models';
+import { Subscription } from 'rxjs';
+import { BlogPostsService } from '../services/blogposts-services.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-blogpost',
   templateUrl: './add-blogpost.component.html',
   styleUrls: ['./add-blogpost.component.css']
 })
-export class AddBlogpostComponent {
+export class AddBlogpostComponent implements OnDestroy{
   model:AddBlogPost
+  private addBlogPostSubscription?: Subscription
 
-  constructor() {
+  constructor(private service: BlogPostsService, private router: Router) {
     this.model = {
       title : '',
       shortDescription: '',
@@ -21,8 +25,17 @@ export class AddBlogpostComponent {
       publishedDate: new Date()
     }
   }
-
+  
   onFormSubmit(): void {
-    console.log(this.model)
+    this.addBlogPostSubscription = this.service.addBlogPost(this.model)
+      .subscribe({
+        next: (response) => {
+          this.router.navigateByUrl('/admin/blogposts')
+        }
+      })
+  }
+
+  ngOnDestroy(): void {
+    this.addBlogPostSubscription?.unsubscribe();
   }
 }
